@@ -15,9 +15,10 @@ int z = 0;
 char Data[value] = "";
 //int msData[value1];
 int motorSpeed = 10;
+int m = 0;
 
 int servo1Pos = 90, servo2Pos = 0, servo3Pos = 35, servo4Pos = 140, servo5Pos = 85, servo6Pos = 80;
-const int servo1PosS = 50, servo2PosS = 90, servo3PosS = 60, servo4PosS = 60, servo5PosS = 0, servo6PosS = 80;
+const int servo1PosS = 50, servo2PosS = 0, servo3PosS = 60, servo4PosS = 60, servo5PosS = 0, servo6PosS = 80;
 
 void setup() {
 
@@ -53,41 +54,90 @@ void loop() {
       Data[i] = Serial.read();
     }
     if (Data[z] == 'g' && Data[z + 1] == 'p') {
-      servo06.write(servo6Pos + motorSpeed);
+      servo6Pos += motorSpeed;
+
+      if (servo6Pos > 179) {
+        servo6Pos = 180;
+      }
+      servo06.write(servo6Pos);
     }
     else if (Data[z] == 'r' && Data[z + 1] == 'p') {
-      servo05.write(servo5Pos + motorSpeed);
+      servo5Pos += motorSpeed;
+      if (servo5Pos > 179) {
+        servo5Pos = 180;
+      }
+      servo05.write(servo5Pos);
     }
     else if (Data[z] == 'p' && Data[z + 1] == 'p') {
-      servo04.write(servo4Pos + motorSpeed);
+      servo4Pos += motorSpeed;
+      if (servo4Pos > 179) {
+        servo4Pos = 180;
+      }
+      servo04.write(servo4Pos);
     }
     else if (Data[z] == 'e' && Data[z + 1] == 'p') {
-      servo03.write(servo3Pos + motorSpeed);
+      servo3Pos += motorSpeed;
+      if (servo3Pos > 179) {
+        servo3Pos = 180;
+      }
+      servo03.write(servo3Pos);
     }
     else if (Data[z] == 's' && Data[z + 1] == 'p') {
-      servo02.write(servo2Pos + motorSpeed);
+      servo2Pos += motorSpeed;
+      if (servo2Pos > 179) {
+        servo2Pos = 180;
+      }
+      servo02.write(servo2Pos);
     }
     else if (Data[z] == 'w' && Data[z + 1] == 'p') {
-      servo01.write(servo1Pos + motorSpeed);
+      servo1Pos += motorSpeed;
+      if (servo1Pos > 179) {
+        servo1Pos = 180;
+      }
+      servo01.write(servo1Pos);
     }
     //___________________________________________
     else if (Data[z] == 'g' && Data[z + 1] == 'n') {
-      servo06.write(servo6Pos - motorSpeed);
+      servo6Pos -= motorSpeed;
+      if (servo6Pos < 0) {
+        servo6Pos = 0;
+      }
+      servo06.write(servo6Pos);
     }
     else if (Data[z] == 'r' && Data[z + 1] == 'n') {
-      servo05.write(servo5Pos - motorSpeed);
+      servo5Pos -= motorSpeed;
+      if (servo5Pos < 0) {
+        servo5Pos = 0;
+      }
+      servo05.write(servo5Pos);
     }
     else if (Data[z] == 'p' && Data[z + 1] == 'n') {
-      servo04.write(servo4Pos - motorSpeed);
+      servo4Pos -= motorSpeed;
+      if (servo4Pos < 0) {
+        servo4Pos = 0;
+      }
+      servo04.write(servo4Pos);
     }
     else if (Data[z] == 'e' && Data[z + 1] == 'n') {
-      servo03.write(servo3Pos - motorSpeed);
+      servo3Pos -= motorSpeed;
+      if (servo3Pos < 0) {
+        servo3Pos = 0;
+      }
+      servo03.write(servo3Pos);
     }
     else if (Data[z] == 's' && Data[z + 1] == 'n') {
-      servo02.write(servo2Pos - motorSpeed);
+      servo2Pos -= motorSpeed;
+      if (servo2Pos < 0) {
+        servo2Pos = 0;
+      }
+      servo02.write(servo2Pos);
     }
     else if (Data[z] == 'w' && Data[z + 1] == 'n') {
-      servo01.write(servo1Pos - motorSpeed);
+      servo1Pos -= motorSpeed;
+      if (servo1Pos < 0) {
+        servo1Pos = 0;
+      }
+      servo01.write(servo1Pos);
     }
     //_________________________________________
     else if (Data[z] == 'g' && Data[z + 1] == 's') {
@@ -117,19 +167,29 @@ void loop() {
       servo06.write(servo6PosS);
     }
     //__________________________________________________
-    else if (isAscii(Data[z])) {
-
-      
-        }
+    else if (isDigit(Data[z])) {
+      if (isDigit(Data[z]) && isDigit(Data[z + 1])) {
+        motorSpeed = int(Data[z]-48) * 10 + int((Data[z + 1]-48));
+      }
+      else if (isDigit(Data[z]) && isDigit(Data[z + 1]) && isDigit(Data[z + 2])) {
+        motorSpeed = 100;
+      }
+      else{
+        motorSpeed = int(Data[z]-48 );
+      }
     }
-  
 
-  //  for (int i = 0; i < value; i++) {
-  //    Serial.println(Data[i]);
-  //  }
-Serial.println(motorSpeed);
+
+  }
+
+
+  for (int i = 0; i < value; i++) {
+    Serial.println(Data[i]);
+  }
+  //Serial.println(servo2Pos);
+  Serial.println(motorSpeed);
   for (int i = 0; i < value; i++) {
     Data[i] = clean;
   }
-  delay(200);
+  delay(100);
 }
