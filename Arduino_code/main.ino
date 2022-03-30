@@ -14,7 +14,7 @@ const int value = 4;
 int z = 0;
 char Data[value] = "";
 //int msData[value1];
-int motorSpeed = 10;
+int motorSpeed = 5;
 int m = 0;
 
 int servo1Pos = 90, servo2Pos = 0, servo3Pos = 35, servo4Pos = 140, servo5Pos = 85, servo6Pos = 80;
